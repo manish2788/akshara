@@ -151,6 +151,15 @@ class Vrat {
   render() {
     this.mainContent();
   }
+  compare( a, b, key ) {
+    if ( a.date < b.date ){
+      return -1;
+    }
+    if ( a.date > b.date ){
+      return 1;
+    }
+    return 0;
+  }
   convertDate(dateValue) {
     function pad(s) { return (s < 10) ? '0' + s : s; }
     var d = new Date(dateValue)
@@ -164,18 +173,12 @@ class Vrat {
       })
     }); 
     this.saveVratButton.addEventListener('click', () => {
-      const date = this.convertDate(this.vratDateInput.valueAsNumber);
+      //const date = this.convertDate(this.vratDateInput.valueAsNumber);
+      const date = this.vratDateInput.valueAsNumber;
+      console.log(date);
       const festival = this.vratSelectionButton.innerText;
-
-      let dateTemplate = `
-        <div class="row">
-          <strong>${this.convertDate(this.vratDateInput.valueAsNumber)}</strong>
-          &nbsp;-&nbsp;
-          <p>${this.vratSelectionButton.innerText}</p>
-        </div>
-      `;
-      this.updateMonthFestivals(`${date} - ${festival}`);
-      //this.vratDisplayContainer.insertAdjacentHTML('beforeend', dateTemplate);
+      //this.updateMonthFestivals(`${date} - ${festival}`);
+      this.updateMonthFestivals(date, festival);
       this.vratSelectionButton.innerText = this.data.defaultFestivalSelection;
       this.vratDateInput.value = "";
     })
@@ -187,14 +190,15 @@ class Vrat {
         this.monthId = evt.target.getAttribute('data-month-id');
         this.monthSelectionButton.setAttribute('data-selected-month', evt.target.getAttribute('data-month-id'));
         this.monthSelectionButton.innerText = evt.target.innerText;
-        this.selectedMonthTitle.innerText = evt.target.innerText;
+        //this.selectedMonthTitle.innerText = evt.target.innerText;
       })
     }); 
   }
-  updateMonthFestivals(festival) {
+  updateMonthFestivals(date, festival) {
     let selectedMonth = this.data.months.filter(month => month.id == this.monthId);
-    selectedMonth[0].festivals.push(festival);
-    console.log(this.data.months);
+    let festivals = selectedMonth[0].festivals;
+    festivals.push({'date':date ,'label': festival});
+    festivals.sort(this.compare);
     this.updateDisplay();
   }
   updateDisplay() {
@@ -204,7 +208,7 @@ class Vrat {
         <strong id="month-selected" class="pb-2 dark-red">${month.label} - ${month.date}</strong>
         ${
           month.festivals.map(festival => {
-            return ` <div class="pb-1 pt-1"><strong>${festival}</strong></div>`
+            return ` <div class="pb-1 pt-1"><strong>${this.convertDate(festival.date)} - ${festival.label}</strong></div>`
           }).join('')
         }
       </div>
