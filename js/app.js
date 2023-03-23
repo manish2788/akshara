@@ -215,9 +215,22 @@ class Vrat {
       `;
     }).join('');
   }
+  print() {
+    let mainContainer = document.querySelector('.main-content');
+    let vratBody = document.querySelector(".vrat-body");
+    let heading = document.createElement('h3');
+    heading.innerText = 'Save below image by right clicking';
+    html2canvas(vratBody).then(canvas => {
+      mainContainer.insertAdjacentElement('beforeend', heading);
+      mainContainer.insertAdjacentElement('beforeend', canvas);
+    });
+  }
   bindEvents() {
     this.bindFestivalSelection();
     this.bindMonthSelection();
+    document.getElementById('print-vrat').addEventListener('click', () => {
+      this.print();
+    })
   }
 }
 

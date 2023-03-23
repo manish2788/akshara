@@ -876,7 +876,7 @@ textarea.form-control {
 .vrat-body {
     border: 1px solid #AAA;
     margin-top: 2%;
-    box-shadow: 0 0 0.5cm rgb(0 0 0 / 50%);
+    /* box-shadow: 0 0 0.5cm rgb(0 0 0 / 50%); */
     width: 21cm;
     height: 29.7cm;
 }
