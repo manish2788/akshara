@@ -200,11 +200,11 @@ class Vrat {
   updateDisplay() {
     this.vratDisplayContainer.innerHTML = this.data.months.map(month => {
       return `
-      <div class="col-xl-6 pb-4">
-        <h5 id="month-selected" style="color:#8f0d0d">${month.label} - ${month.date}</h5>
+      <div class="col-xl-6 pb-2">
+        <strong id="month-selected" class="pb-2 dark-red">${month.label} - ${month.date}</strong>
         ${
           month.festivals.map(festival => {
-            return ` <div class="pb-1"><strong>${festival}</strong></div>`
+            return ` <div class="pb-1 pt-1"><strong>${festival}</strong></div>`
           }).join('')
         }
       </div>
