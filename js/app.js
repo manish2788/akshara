@@ -1,7 +1,8 @@
 class Vrat {
   constructor() {
     this.data = {
-      defaultFestivalSelection: "व्रत चुनें ",
+      defaultFestivalSelection: "व्रत चुनें",
+      defaultMonthSelection: "हिन्दू महीना चुनें",
       festivals : [' नवरात्र आरंभ',' चैती छठ',' महाष्टमी व्रत',' श्री राम नवमी',' कामदा एकादशी व्रत',' प्रदोष व्रत',' सत्तू संक्रांति',' चैत्र पूर्णिमा',' वरुथिनी एकादशी व्रत','अमावस्या','अक्षय तृतीया','मोहिनी एकादशी व्रत','बुद्ध पूर्णिमा','अचला एकादशी व्रत','सोमवती अमावस्या','वटसावित्री व्रत','श्री गंगा दशहरा','निर्जला एकादशी व्रत','पूर्णिमा','योगिनी एकादशी व्रत','रथयात्रा','श्री हरिशयनी एकादशी व्रत','सोम प्रदोष व्रत','गुरु पूर्णिमा','सोम प्रदोष व्रत','हरियाली अमावस्या','पुत्रदा एकादशी व्रत','श्रावण पूर्णिमा',' रक्षा बंधन',' संस्कृत दिवस','श्री कृष्ण जन्माष्टमी व्रत','जया एकादशी व्रत (गृहस्थ)','एकादशी व्रत (संन्यासी)','कुशोत्पाटिनी अमावस्या','हरितालिका व्रत (तीज)','श्री गणेश चतुर्थी व्रत','श्री ऋषि पंचमी व्रत','पद्मा एकादशी व्रत','अनंत चतुर्दशी व्रत','स्नान दान पूर्णिमा','पितृ पक्ष आरंभ (तर्पण)',' विश्वकर्मा पूजा ','जीवत्पुत्रिका व्रत (पारण पर दिन प्रातः)','इंदिरा एकादशी व्रत','पितृ विसर्जन',' महालया','शारदीय नवरात्र',' कलश स्थापन',' सप्तमी ',' प्रतिमा स्थापन',' महाष्टमी व्रत',' महानवमी',' विजय दशमी','नवरात्र व्रत (पारण प्रातः)','पापांकुशा एकादशी व्रत','शरद पूर्णिमा','योगिनी एकादशी व्रत','शनि प्रदोष व्रत',' धनतेरस',' धन्वन्तरि जयंती',' यम दीप','नरक चतुर्दशी',' पितृदीप','दीपावली','स्नान दान अमावस्या',' सूर्य ग्रहण',' अन्न कूट',' गोवर्धन पूजा',' भ्रातृ द्वितीया',' चित्रगुप्त पूजायमुनास्नान','सूर्य षष्ठी व्रत - सायं अर्घ्य',' सूर्य षष्ठी व्रत पारण',' प्रातः अर्घ्य','गोपाष्टमी','अक्षय नवमी','श्री हरि प्रबोधिनी एकादशी','वोत्थान',' तुलसी विवाह','कार्तिक पूर्णिमा (व्रत पूर्व दिन)','श्री गणेश चतुर्थी व्रत','उत्पन्ना एकादशी व्रत','मोक्षदा एकादशी व्रत',' गीता जयंती','स्नान दान पूर्णिमा','सफला एकादशी व्रत','मास शिवरात्रि व्रत','मकर संक्रांति','षट्तिला एकादशी व्रत','बसंत पंचमी',' अचला सप्तमी',' रथ सप्तमी','जया एकादशी व्रत',' माघी पूर्णिमा',' विजया एकादशी व्रत','महाशिवरात्रि व्रत','आमलकी एकादशी व्रत','व्रत की पूर्णिमा',' होलिका दाह','होलिकोत्सव (होली)','पाप मोचनि एकादशी व्रत'],
       months: [{
         "id": 1,
@@ -132,9 +133,9 @@ class Vrat {
     this.vratSelectionMenu = document.getElementById('vrat-selection');
     this.vratSelectionButton = document.getElementById('vratSelectionButton');
     this.saveVratButton = document.getElementById('save-vrat');
+    //this.removeVratButton = document.getElementById('remove-vrat');
     this.vratDisplayContainer = document.getElementById('vrat-display-container');
     this.vratDateInput = document.getElementById('vrat-date');
-    this.selectedMonthTitle = document.getElementById('month-selected');
 
     this.render();
     this.bindEvents();
@@ -177,6 +178,32 @@ class Vrat {
     var d = new Date(dateValue)
     return [pad(d.getDate()), pad(d.getMonth()+1), d.getFullYear()].join('/')
   }
+  updateDisplayData(evt) {
+    let targetId = evt.target.id;
+    const date = this.vratDateInput.valueAsNumber;
+    const festival = this.vratSelectionButton.innerText;
+    if(this.monthSelectionButton.innerText.trim() === 'हिन्दू महीना चुनें') {
+      alert('कृपया हिन्दू महीना चुनें')
+    }
+    if(isNaN(date)) {
+      alert('कृपया तिथि चुनें')
+    }
+    if(festival.trim() === 'व्रत चुनें') {
+      alert('कृपया व्रत चुनें')
+    }
+    if(!isNaN(date) && festival.trim() !== 'व्रत चुनें') {
+      if(targetId === 'save-vrat') {
+        this.updateMonthFestivals(date, festival);
+      }
+      else if(targetId === 'remove-vrat') {
+        alert('Remove in progress....')
+      }
+      this.vratSelectionButton.innerText = this.data.defaultFestivalSelection;
+      this.monthSelectionButton.innerText = this.data.defaultMonthSelection;
+      this.vratDateInput.value = "";
+    }
+  }
+
   bindFestivalSelection() {
     const links = this.vratSelectionMenu.querySelectorAll('.dropdown-item');
     links.forEach(link => {
@@ -185,25 +212,8 @@ class Vrat {
         this.vratSelectionButton.innerText = evt.target.innerText;
       })
     }); 
-    this.saveVratButton.addEventListener('click', () => {
-      //const date = this.convertDate(this.vratDateInput.valueAsNumber);
-      const date = this.vratDateInput.valueAsNumber;
-      const festival = this.vratSelectionButton.innerText;
-      if(this.monthSelectionButton.innerText.trim() === 'हिन्दू महीना चुनें') {
-        alert('कृपया हिन्दू महीना चुनें')
-      }
-      if(isNaN(date)) {
-        alert('कृपया तिथि चुनें')
-      }
-      if(festival.trim() === 'व्रत चुनें') {
-        alert('कृपया व्रत चुनें')
-      }
-      if(!isNaN(date) && festival.trim() !== 'व्रत चुनें') {
-        this.updateMonthFestivals(date, festival);
-        this.vratSelectionButton.innerText = this.data.defaultFestivalSelection;
-        this.vratDateInput.value = "";
-      }
-    })
+    this.saveVratButton.addEventListener('click', this.updateDisplayData.bind(this));
+    //this.removeVratButton.addEventListener('click', this.updateDisplayData.bind(this));
   }
   bindMonthSelection() {
     const links = this.monthSelectionMenu.querySelectorAll('.dropdown-item');
@@ -213,7 +223,6 @@ class Vrat {
         this.monthId = evt.target.getAttribute('data-month-id');
         this.monthSelectionButton.setAttribute('data-selected-month', evt.target.getAttribute('data-month-id'));
         this.monthSelectionButton.innerText = evt.target.innerText;
-        //this.selectedMonthTitle.innerText = evt.target.innerText;
       })
     }); 
   }
@@ -224,15 +233,28 @@ class Vrat {
     festivals.push({'date':date , 'day': day, 'label': festival});
     festivals.sort(this.compare);
     this.updateDisplay();
+    this.bindRemoveEvent();
+  }
+  removeFestival() {
+    alert('om');
+  }
+  bindRemoveEvent() {
+    const festivals = this.vratDisplayContainer.querySelectorAll('.festival');
+    festivals.forEach(festival => {
+      festival.addEventListener('dblclick', () => {
+        this.itemToRemove = "";
+        this.removeFestival();
+      });
+    })
   }
   updateDisplay() {
     this.vratDisplayContainer.innerHTML = this.data.months.map(month => {
       return `
       <div class="col-xl-6 pb-2">
-        <strong id="month-selected" class="pb-2 dark-red">${month.label} - ${month.date}</strong>
+        <strong class="pb-2 dark-red month">${month.label} - ${month.date}</strong>
         ${
           month.festivals.map(festival => {
-            return ` <div class="pb-1 pt-1"><strong>${this.convertDate(festival.date)} (${festival.day}) - ${festival.label}</strong></div>`
+            return ` <div class="pb-1 pt-1 festival" data-date="${festival.date}" data-festival="${festival.label}"><strong>${this.convertDate(festival.date)} (${festival.day}) - ${festival.label}</strong></div>`
           }).join('')
         }
       </div>
@@ -242,7 +264,8 @@ class Vrat {
   print() {
     let mainContainer = document.querySelector('.main-content');
     let vratBody = document.querySelector(".vrat-body");
-    let heading = document.createElement('h3');
+    let heading = document.createElement('h5');
+    heading.classList = "pt-4"
     heading.innerText = 'Save below image by right clicking';
     html2canvas(vratBody).then(canvas => {
       mainContainer.insertAdjacentElement('beforeend', heading);
@@ -252,9 +275,10 @@ class Vrat {
   bindEvents() {
     this.bindFestivalSelection();
     this.bindMonthSelection();
+
     document.getElementById('print-vrat').addEventListener('click', () => {
       this.print();
-    })
+    });
   }
 }
 
